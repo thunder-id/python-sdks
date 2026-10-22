@@ -1,0 +1,37 @@
+# Copyright 2026 The ThunderID Authors
+# SPDX-License-Identifier: Apache-2.0
+
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+reports/
+.coverage
+htmlcov/
+IMPLEMENTATION.md
+
+# Local credentials and environment configuration.
+.env
+.env.*
+*.env
+.envrc
+.direnv/
+!.env.example
+!.env.*.example
+!*.env.example
+
+# Logs and generated build output.
+*.log
+logs/
+build/
+.hatch/
+.tox/
+.nox/
+*.egg
+pip-wheel-metadata/
+.coverage.*
+coverage.xml

@@ -1,0 +1,41 @@
+# Copyright 2026 The ThunderID Authors
+# SPDX-License-Identifier: Apache-2.0
+
+name: Real-server authentication
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 3 * * *'
+permissions:
+  contents: read
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thunder-id/thunderid
+          ref: 59ffbf47a49ca1118ca0ecd698e2fea7dca487cd
+          path: reports/source
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version-file: reports/source/backend/go.mod
+          cache-dependency-path: reports/source/backend/go.sum
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+        with:
+          python-version: '3.11'
+      - run: python -m pip install uv==0.11.27
+      - run: uv sync --locked
+      - name: Download runtime assets and compile matching server
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v1.0.1 --repo thunder-id/thunderid --pattern thunderid-1.0.1-linux-x64.zip --dir reports
+          cd reports/source/backend
+          go build -o ../../thunderid ./cmd/server
+      - name: Provision generated fixtures and run tests
+        run: |
+          uv run python tests/e2e/provision.py reports/thunderid-1.0.1-linux-x64.zip --directory reports/runtime --binary reports/thunderid --source reports/source
+          uv run python tests/e2e/run.py reports/runtime/settings.json

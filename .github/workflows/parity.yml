@@ -1,0 +1,15 @@
+# Copyright 2026 The ThunderID Authors
+# SPDX-License-Identifier: Apache-2.0
+
+name: SDK parity
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize, labeled, unlabeled]
+  issue_comment:
+    types: [created, edited, deleted]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  parity:
+    uses: thunder-id/thunderid/.github/workflows/sdk-parity-check.yml@59ffbf47a49ca1118ca0ecd698e2fea7dca487cd
