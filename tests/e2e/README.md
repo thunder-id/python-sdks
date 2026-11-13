@@ -18,4 +18,4 @@ Generated settings, credentials, server logs, and databases stay under ignored `
 
 The tests exercise actual HTTP endpoints using the SDK. A Gate-equivalent test driver completes server-described flow actions through the Flow API using action identifiers. This verifies server protocol integration, not browser UI rendering. The CLI examples are separately typechecked and compiled.
 
-Repository setup is still required before releases: configure the protected `pypi` environment and its `PYPI_TOKEN` secret, reserve the package name, and make checks/parity required in branch protection. No package has been published by this implementation.
+Releases publish to PyPI through Trusted Publishing, so no token is stored. Before the first release, register a PyPI pending publisher for project `thunderid` (owner `thunder-id`, repository `python-sdks`, workflow `release.yml`, environment `pypi`), create the `pypi` environment with required reviewers and deployments limited to `v*` tags, and make checks/parity required in branch protection.

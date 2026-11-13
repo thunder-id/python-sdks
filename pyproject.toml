@@ -7,7 +7,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "thunderid"
-version = "0.1.0"
+version = "0.0.1a1"
 description = "Async Python client for the ThunderID open-source IAM stack"
 authors = [{name = "The ThunderID Authors"}]
 keywords = ["thunderid", "iam", "oauth2", "openid-connect", "authentication", "ai-agents", "asyncio"]

@@ -2,10 +2,10 @@
 
 An async Python SDK for the ThunderID open-source IAM stack, supporting humans, AI agents, and machines. Requires Python 3.11 or later. This implementation targets [SDK specification 0.5](https://github.com/thunder-id/thunderid/blob/main/docs-internals/sdk-development/spec.md); platform omissions and current limitations are listed below.
 
-Install from a checkout:
+Install the pre-release from PyPI:
 
 ```sh
-python -m pip install .
+python -m pip install "thunderid>=0.0.1a1"
 ```
 
 Use a registered confidential client with `client_credentials` enabled and permissions on the target resource server. Supply the deployment URL and client credentials through your application's secret configuration:
@@ -42,19 +42,19 @@ The default session store uses a native OS credential store and fails closed if 
 
 For browser sign-in, configure `after_sign_in_url` with a registered callback URL, call `await client.sign_in()`, open the returned `AuthorizationRequest.url`, then complete on the same live client with `await client.handle_redirect_callback(url)` or structured parameters, `await client.handle_redirect_callback(code=code, state=state)`. Use `error=error` with state for a denied authorization; do not mix a URL with structured fields. The SDK verifies PKCE/state and the ID token, then stores the session. `await client.get_access_token()` and `await client.get_obo_token(authorization=session)` refresh owned interactive tokens near expiry; `await client.sign_out()` attempts revocation and clears local state even if revocation fails, reporting the error.
 
-[API reference](docs/reference.md) covers configuration, returned types, errors, delegation, and storage. [Security notes](docs/security.md) explain trust boundaries and deployment limits.
+[API reference](https://github.com/thunder-id/python-sdks/blob/main/docs/reference.md) covers configuration, returned types, errors, delegation, and storage. [Security notes](https://github.com/thunder-id/python-sdks/blob/main/docs/security.md) explain trust boundaries and deployment limits.
 
 ## Runnable examples
 
-Run `python examples/client_credentials.py` (or another example) after installation. All deployment URLs and client configuration come from environment variables. No example prints tokens. Token-exchange inputs and callback URLs use hidden prompts instead of storing bearer credentials in environment variables.
+From a clone of the repository, run `python examples/client_credentials.py` (or another example) after installation. All deployment URLs and client configuration come from environment variables. No example prints tokens. Token-exchange inputs and callback URLs use hidden prompts instead of storing bearer credentials in environment variables.
 
 | Example | Required environment and server setup |
 | --- | --- |
-| [Machine identity](examples/client_credentials.py) | `THUNDERID_BASE_URL`, `THUNDERID_CLIENT_ID`, `THUNDERID_CLIENT_SECRET`, `THUNDERID_CLIENT_AUTH_METHOD=client_secret_basic`; client-credentials grant enabled. Set `THUNDERID_RESOURCE` and `THUNDERID_PERMISSION_SCOPES` for resource permissions. |
-| [Interactive authorization](examples/interactive.py) | Base URL, client ID, and `THUNDERID_CALLBACK_URL`; authorization-code grant and callback registered. Uses the OS browser and a hidden callback URL prompt. Public clients omit secret/auth method. |
-| [Embedded flow](examples/embedded.py) | HTTPS base URL, `THUNDERID_APPLICATION_ID`; an application with an authentication flow. Enter configured action/field identifiers and JSON input values at prompts. |
-| [Explicit token exchange](examples/token_exchange.py) | Base URL, client ID/authentication; token exchange enabled and subject/actor accepted by server policy. Supply subject/actor tokens through hidden prompts. |
-| [CIBA approval](examples/ciba.py) | Base URL, authenticated client, `THUNDERID_LOGIN_HINT`; poll-mode CIBA enabled and a working approval channel. Optional `THUNDERID_BINDING_MESSAGE`, `THUNDERID_CIBA_TIMEOUT`. |
+| [Machine identity](https://github.com/thunder-id/python-sdks/blob/main/examples/client_credentials.py) | `THUNDERID_BASE_URL`, `THUNDERID_CLIENT_ID`, `THUNDERID_CLIENT_SECRET`, `THUNDERID_CLIENT_AUTH_METHOD=client_secret_basic`; client-credentials grant enabled. Set `THUNDERID_RESOURCE` and `THUNDERID_PERMISSION_SCOPES` for resource permissions. |
+| [Interactive authorization](https://github.com/thunder-id/python-sdks/blob/main/examples/interactive.py) | Base URL, client ID, and `THUNDERID_CALLBACK_URL`; authorization-code grant and callback registered. Uses the OS browser and a hidden callback URL prompt. Public clients omit secret/auth method. |
+| [Embedded flow](https://github.com/thunder-id/python-sdks/blob/main/examples/embedded.py) | HTTPS base URL, `THUNDERID_APPLICATION_ID`; an application with an authentication flow. Enter configured action/field identifiers and JSON input values at prompts. |
+| [Explicit token exchange](https://github.com/thunder-id/python-sdks/blob/main/examples/token_exchange.py) | Base URL, client ID/authentication; token exchange enabled and subject/actor accepted by server policy. Supply subject/actor tokens through hidden prompts. |
+| [CIBA approval](https://github.com/thunder-id/python-sdks/blob/main/examples/ciba.py) | Base URL, authenticated client, `THUNDERID_LOGIN_HINT`; poll-mode CIBA enabled and a working approval channel. Optional `THUNDERID_BINDING_MESSAGE`, `THUNDERID_CIBA_TIMEOUT`. |
 
 Optional shared settings: `THUNDERID_CA_FILE` for a trusted CA bundle, `THUNDERID_SCOPES` for interactive scopes (default `openid`), and `THUNDERID_MEMORY_STORAGE=1` to explicitly opt into process-only sample storage. Permission scopes are space separated. The CIBA example always includes `openid`. Keep secrets out of shell history, committed files, and logs.
 
@@ -75,7 +75,7 @@ uv run pytest
 uv build
 ```
 
-Tests use mock HTTP transport and run offline. Real-server coverage and any environment requirements are recorded in [tests/e2e/README.md](tests/e2e/README.md). Follow [AGENTS.md](AGENTS.md) when contributing. Design: [discussion 5877](https://github.com/thunder-id/thunderid/discussions/5877); tracking issue: [2530](https://github.com/thunder-id/thunderid/issues/2530).
+Tests use mock HTTP transport and run offline. Real-server coverage and any environment requirements are recorded in [tests/e2e/README.md](https://github.com/thunder-id/python-sdks/blob/main/tests/e2e/README.md). Follow [AGENTS.md](https://github.com/thunder-id/python-sdks/blob/main/AGENTS.md) when contributing. Design: [discussion 5877](https://github.com/thunder-id/thunderid/discussions/5877); tracking issue: [2530](https://github.com/thunder-id/thunderid/issues/2530).
 
 ## Contributing
 
@@ -85,4 +85,4 @@ For code contributions, follow [Contributing Code](https://thunderid.dev/communi
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE).
+This project is licensed under the [Apache License 2.0](https://github.com/thunder-id/python-sdks/blob/main/LICENSE).
