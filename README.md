@@ -2,10 +2,10 @@
 
 An async Python SDK for the ThunderID open-source IAM stack, supporting humans, AI agents, and machines. Requires Python 3.11 or later. This implementation targets [SDK specification 0.5](https://github.com/thunder-id/thunderid/blob/main/docs-internals/sdk-development/spec.md); platform omissions and current limitations are listed below.
 
-Install the pre-release from PyPI:
+Install from PyPI:
 
 ```sh
-python -m pip install "thunderid>=0.0.1a1"
+python -m pip install thunderid
 ```
 
 Use a registered confidential client with `client_credentials` enabled and permissions on the target resource server. Supply the deployment URL and client credentials through your application's secret configuration:
